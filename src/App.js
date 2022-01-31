@@ -11,14 +11,13 @@ import Register from './components/Register';
 import Home from './components/Home';
 import Profile from './components/Profile';
 import Staff from './components/Staff';
-import Agent from './components/Agent';
 import Admin from './components/Admin';
 import EventBus from './common/EventBus';
 
 const App = () => {
-  const [staff, setShowStaff] = useState("")
-  const [admin, setShowAdmin] = useState("")
-  const [currentUser, setCurrentUser] = useState("")
+  const [staff, setShowStaff] = useState(false)
+  const [admin, setShowAdmin] = useState(false)
+  const [currentUser, setCurrentUser] = useState(undefined)
 
 
   useEffect(() => {
@@ -58,7 +57,7 @@ const App = () => {
             </Link>
           </li>
 
-          {setShowStaff && (
+          {staff && (
             <li className="nav-item">
               <Link to={"/staff"} className="nav-link">
                 Staff Content
@@ -66,7 +65,7 @@ const App = () => {
             </li>
           )}
 
-          {setShowAdmin && (
+          {admin && (
             <li className="nav-item">
               <Link to={"/admin"} className="nav-link">
                 Admin Content
@@ -74,7 +73,7 @@ const App = () => {
             </li>
           )}
 
-          {setCurrentUser && (
+          {currentUser && (
             <li className="nav-item">
               <Link to={"/user"} className="nav-link">
                 User
@@ -106,7 +105,7 @@ const App = () => {
 
             <li className="nav-item">
               <Link to={"/register"} className="nav-link">
-                Sign Up
+                Register
               </Link>
             </li>
           </div>

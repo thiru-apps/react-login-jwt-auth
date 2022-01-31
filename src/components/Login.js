@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import logo from "../img/me1.jpg"
 
 import AuthService from "../services/auth";
 
@@ -72,7 +73,7 @@ const Login = () => {
         <div className="col-md-12">
             <div className="card card-container">
                 <img
-                    src=""
+                    src={logo}
                     alt="profile-img"
                     className="profile-img-card"
                 />

@@ -3,6 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
+import logo from "../img/me.jpg"
 
 import AuthService from "../services/auth";
 
@@ -40,7 +41,7 @@ const validPassword = (value) => {
     if (value.length < 8 || value.length > 10) {
         return (
             <div className="invalid-feedback d-block">
-                The password must be between 6 and 8 characters.
+                The password must be between 8 and 10 characters.
             </div>
         );
     }
@@ -66,7 +67,7 @@ const validAddress = (value) => {
     }
 };
 
-const Register = (pros) => {
+const Register = (props) => {
 
     const form = useRef();
     const checkBtn = useRef();
@@ -75,7 +76,7 @@ const Register = (pros) => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
-    const [address, setAddress] = useState("");
+    const [location, setLocation] = useState("");
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -96,8 +97,8 @@ const Register = (pros) => {
         setPhone(e.target.value)
     }
 
-    const onChangeAddress = (e) => {
-        setAddress(e.target.value)
+    const onChangeLocation = (e) => {
+        setLocation(e.target.value)
     }
 
     const handleRegister = (e) => {
@@ -110,8 +111,8 @@ const Register = (pros) => {
         form.current.validateAll();
 
 
-        if (checkBtn.current.contex._errors.length === 0) {
-            AuthService.register(username, email, password, phone, address).then(
+        if (checkBtn.current.context._errors.length === 0) {
+            AuthService.register(username, email, password, phone, location).then(
                 (response) => {
                     setMessage(response.data.message)
                     setSuccessful(true)
@@ -127,51 +128,50 @@ const Register = (pros) => {
     return (
         <div className="col-md-12">
             <div className="card card-container">
-                <img src="" alt="profile" className="profile-img-card" />
+                <img src={logo} alt="profile" className="profile-img-card" />
+                <Form onSubmit={handleRegister} ref={form}>
+                    {!successful && (
+                        <div>
+                            <div className="form-group">
+                                <label htmlFor="username">Username</label>
+                                <Input type="text" className="form-control" name="username" value={username} onChange={onChangeUsername} validations={[required, validUsername]} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="password">Password</label>
+                                <Input type="text" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[required, validPassword]} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="email">Email</label>
+                                <Input type="text" className="form-control" name="email" value={email} onChange={onChangeEmail} validations={[required, validEmail]} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="phone">Phone</label>
+                                <Input type="text" className="form-control" name="phone" value={phone} onChange={onChangePhone} validations={[required, validPhone]} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="location">Address</label>
+                                <Input type="text" className="form-control" name="location" value={location} onChange={onChangeLocation} validations={[required, validAddress]} />
+                            </div>
+
+                            <div className="form-group">
+                                <button className="btn btn-primary btn-block">Register</button>
+                            </div>
+                        </div>
+                    )}
+                    {message && (
+                        <div className="form-group">
+                            <div className={
+                                successful ? "alert alert-success" : "alert alert-danger"
+                            } role="alert"
+                            >
+                                {message}
+                            </div>
+                        </div>
+
+                    )}
+                    <CheckButton style={{ display: "none" }} ref={checkBtn} />
+                </Form>
             </div>
-            <Form onSumbit={handleRegister} ref={form}>
-                {!successful && (
-                    <div>
-                        <div className="form-group">
-                            <label htmlFor="username">Username</label>
-                            <input type="text" className="form-control" name="username" value={username} onChange={onChangeUsername} validations={[required, validUsername]} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <input type="text" className="form-control" name="password" value={password} onChange={onChangePassword} validations={[required, validPassword]} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input type="text" className="form-control" name="email" value={email} onChange={onChangeEmail} validations={[required, validEmail]} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="phone">Phone</label>
-                            <input type="text" className="form-control" name="phone" value={phone} onChange={onChangePhone} validations={[required, validPhone]} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="address">Address</label>
-                            <input type="text" className="form-control" name="address" value={address} onChange={onChangeAddress} validations={[required, validAddress]} />
-                        </div>
-
-                        <div className="form-group">
-                            <button className="btn btn-primary btn-block">Register</button>
-                        </div>
-                    </div>
-                )}
-                {message && (
-                    <div className="form-group">
-                        <div className={
-                            successful ? "alert alert-success" : "alert alert-danger"
-                        } role="alert"
-                        >
-                            {message}
-                        </div>
-                    </div>
-
-                )}
-                <CheckButton style={{ display: "none" }} ref={checkBtn} />
-
-            </Form>
         </div>
     );
 
